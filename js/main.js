@@ -179,29 +179,35 @@ function initNavigation() {
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            // Don't prevent default for gallery link (external page)
-            if (link.classList.contains('gallery-link')) {
-                return; // Let the browser handle the navigation
+            const href = link.getAttribute('href');
+            
+            // If link contains "../" or starts with "http", it's an external/cross-page link
+            if (href.includes('../') || href.startsWith('http') || href.includes('.html')) {
+                // Let the browser handle the navigation normally
+                return;
             }
             
-            e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            // Handle same-page navigation
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // Update active link
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
             }
             
             // Close mobile menu
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
-            
-            // Update active link (only for same-page navigation)
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
         });
     });
 }
@@ -537,29 +543,35 @@ function initNavigation() {
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            // Don't prevent default for gallery link (external page)
-            if (link.classList.contains('gallery-link')) {
-                return; // Let the browser handle the navigation
+            const href = link.getAttribute('href');
+            
+            // If link contains "../" or starts with "http", it's an external/cross-page link
+            if (href.includes('../') || href.startsWith('http') || href.includes('.html')) {
+                // Let the browser handle the navigation normally
+                return;
             }
             
-            e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            // Handle same-page navigation
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // Update active link
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
             }
             
             // Close mobile menu
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
-            
-            // Update active link (only for same-page navigation)
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
         });
     });
 }
@@ -895,29 +907,35 @@ function initNavigation() {
 
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            // Don't prevent default for gallery link (external page)
-            if (link.classList.contains('gallery-link')) {
-                return; // Let the browser handle the navigation
+            const href = link.getAttribute('href');
+            
+            // If link contains "../" or starts with "http", it's an external/cross-page link
+            if (href.includes('../') || href.startsWith('http') || href.includes('.html')) {
+                // Let the browser handle the navigation normally
+                return;
             }
             
-            e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            // Handle same-page navigation
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // Update active link
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
             }
             
             // Close mobile menu
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
-            
-            // Update active link (only for same-page navigation)
-            navLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
         });
     });
 }
