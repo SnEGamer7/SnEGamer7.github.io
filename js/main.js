@@ -1,34 +1,107 @@
-// Matrix rain effect
-function createMatrixRain() {
-    const canvas = document.createElement('canvas');
-    canvas.id = 'matrix-canvas';
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.zIndex = '-1';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.opacity = '0.1';
-    document.body.appendChild(canvas);
-
-    const ctx = canvas.getContext('2d');
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+// Theme-specific background effects
+function createThemeBackground() {
+    // Remove existing matrix canvas if it exists
+    const existingCanvas = document.getElementById('matrix-canvas');
+    if (existingCanvas) {
+        existingCanvas.remove();
     }
     
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
-    const matrixArray = matrix.split("");
+    // Create background container
+    const bgContainer = document.createElement('div');
+    bgContainer.id = 'theme-background';
+    bgContainer.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    `;
+    document.body.appendChild(bgContainer);
     
+    updateThemeBackground();
+}
+
+function updateThemeBackground() {
+    const bgContainer = document.getElementById('theme-background');
+    if (!bgContainer) return;
+    
+    const theme = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
+    
+    // Background configurations
+    const backgrounds = {
+        cyberpunk: {
+            type: 'image',
+            src: 'assets/images/cyberpunk-bg.jpg', // You'll upload this
+            fallback: 'matrix'
+        },
+        minecraft: {
+            type: 'image', 
+            src: 'assets/images/minecraft-bg.jpg', // You'll upload this
+            fallback: 'blocks'
+        },
+        gamedev: {
+            type: 'image',
+            src: 'assets/images/gamedev-bg.jpg', // You'll upload this  
+            fallback: 'particles'
+        }
+    };
+    
+    const config = backgrounds[theme];
+    
+    if (config.type === 'image') {
+        // Try to load background image
+        const img = new Image();
+        img.onload = () => {
+            bgContainer.style.backgroundImage = `url(${config.src})`;
+            bgContainer.style.backgroundSize = 'cover';
+            bgContainer.style.backgroundPosition = 'center';
+            bgContainer.style.backgroundRepeat = 'no-repeat';
+            bgContainer.style.opacity = '0.3';
+        };
+        img.onerror = () => {
+            // Fallback to procedural background
+            createFallbackBackground(bgContainer, config.fallback);
+        };
+        img.src = config.src;
+    }
+}
+
+function createFallbackBackground(container, type) {
+    container.innerHTML = '';
+    
+    switch(type) {
+        case 'matrix':
+            createMatrixEffect(container);
+            break;
+        case 'blocks':
+            createBlockEffect(container);
+            break;
+        case 'particles':
+            createParticleEffect(container);
+            break;
+    }
+    
+    container.style.opacity = '0.2';
+}
+
+function createMatrixEffect(container) {
+    // Original matrix rain effect
+    const canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    container.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*";
+    const matrixArray = matrix.split("");
     const fontSize = 10;
     const columns = canvas.width / fontSize;
-    
     const drops = [];
+    
     for(let x = 0; x < columns; x++) {
         drops[x] = 1;
     }
@@ -36,7 +109,6 @@ function createMatrixRain() {
     function draw() {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
         ctx.fillStyle = '#00ffff';
         ctx.font = fontSize + 'px monospace';
         
@@ -52,6 +124,46 @@ function createMatrixRain() {
     }
     
     setInterval(draw, 35);
+}
+
+function createBlockEffect(container) {
+    // Animated minecraft-style blocks
+    for(let i = 0; i < 20; i++) {
+        const block = document.createElement('div');
+        block.style.cssText = `
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #4CAF50;
+            border: 2px solid #388E3C;
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            animation: float ${3 + Math.random() * 4}s ease-in-out infinite;
+            animation-delay: ${Math.random() * 2}s;
+        `;
+        container.appendChild(block);
+    }
+}
+
+function createParticleEffect(container) {
+    // Floating geometric shapes for game dev theme
+    const shapes = ['◆', '●', '▲', '■', '♦'];
+    
+    for(let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+        particle.style.cssText = `
+            position: absolute;
+            color: #9C27B0;
+            font-size: ${10 + Math.random() * 20}px;
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            animation: float ${4 + Math.random() * 6}s ease-in-out infinite;
+            animation-delay: ${Math.random() * 3}s;
+            opacity: 0.6;
+        `;
+        container.appendChild(particle);
+    }
 }
 
 // Navigation functionality
@@ -213,134 +325,118 @@ function showNotification(message, type) {
     }, 3000);
 }
 
-// Theme switching functionality
+// Simple theme switching functionality
 function initThemeSwitcher() {
-    const themeButtons = document.querySelectorAll('.theme-btn');
-    const html = document.documentElement;
+    // Wait for DOM to be fully ready
+    if (document.readyState !== 'complete') {
+        window.addEventListener('load', initThemeSwitcher);
+        return;
+    }
     
-    // Theme-specific images
-    const themeImages = {
+    console.log('Theme switcher starting...');
+    
+    // Get theme buttons
+    const buttons = document.querySelectorAll('.theme-btn');
+    console.log('Buttons found:', buttons.length);
+    
+    if (buttons.length === 0) {
+        console.error('No theme buttons found!');
+        return;
+    }
+    
+    // Theme images mapping
+    const images = {
         cyberpunk: ['CyberP.png', 'CyberP.png', 'CyberP.png'],
         minecraft: ['RTX.png', 'mcperender.png', 'BBart.png'],
         gamedev: ['CyberP.png', 'CyberP.png', 'CyberP.png']
     };
     
-    // Set initial active theme button
-    const currentTheme = html.getAttribute('data-theme') || 'cyberpunk';
-    updateActiveThemeButton(currentTheme);
-    
-    // Add click event listeners with proper event handling
-    themeButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const newTheme = button.getAttribute('data-theme');
-            console.log('Theme button clicked:', newTheme); // Debug log
-            
-            if (newTheme) {
-                switchTheme(newTheme);
-            }
-        });
+    // Add click handlers
+    buttons.forEach(button => {
+        button.onclick = function() {
+            const theme = this.dataset.theme;
+            console.log('Clicked theme:', theme);
+            changeTheme(theme);
+        };
     });
     
-    function switchTheme(theme) {
-        console.log('Switching to theme:', theme); // Debug log
+    function changeTheme(theme) {
+        console.log('Changing to theme:', theme);
         
-        // Update HTML data-theme attribute
-        html.setAttribute('data-theme', theme);
-        
-        // Force a style recalculation
-        html.offsetHeight;
+        // Update HTML attribute
+        document.documentElement.setAttribute('data-theme', theme);
         
         // Update active button
-        updateActiveThemeButton(theme);
-        
-        // Update content based on theme
-        updateThemeContent(theme);
-        
-        // Update project images
-        updateProjectImages(theme);
-        
-        // Update skills visibility
-        updateSkillsVisibility(theme);
-        
-        // Save theme preference
-        localStorage.setItem('preferred-theme', theme);
-        
-        // Trigger a reflow to ensure changes take effect
-        document.body.classList.add('theme-transition');
-        setTimeout(() => {
-            document.body.classList.remove('theme-transition');
-        }, 500);
-    }
-    
-    function updateActiveThemeButton(theme) {
-        themeButtons.forEach(btn => {
+        buttons.forEach(btn => {
             btn.classList.remove('active');
-            if (btn.getAttribute('data-theme') === theme) {
+            if (btn.dataset.theme === theme) {
                 btn.classList.add('active');
             }
         });
-    }
-    
-    function updateThemeContent(theme) {
-        // Update all elements with theme-specific data attributes
-        document.querySelectorAll('[data-' + theme + ']').forEach(element => {
-            const themeContent = element.getAttribute('data-' + theme);
-            if (themeContent) {
-                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                    element.value = themeContent;
-                } else {
-                    element.textContent = themeContent;
-                }
-            }
-        });
-    }
-    
-    function updateProjectImages(theme) {
-        const projectImages = document.querySelectorAll('.project-img');
-        const images = themeImages[theme] || themeImages.cyberpunk;
         
-        projectImages.forEach((img, index) => {
-            if (images[index]) {
-                const newSrc = `assets/images/${images[index]}`;
-                console.log('Updating image:', newSrc); // Debug log
-                
-                // Preload image before switching
-                const preloadImg = new Image();
-                preloadImg.onload = () => {
-                    img.src = newSrc;
-                    img.alt = `${theme} project ${index + 1}`;
-                };
-                preloadImg.src = newSrc;
-            }
-        });
-    }
-    
-    function updateSkillsVisibility(theme) {
-        const skillsContainers = document.querySelectorAll('.skills .theme-content');
-        
-        skillsContainers.forEach(container => {
-            const containerTheme = container.getAttribute('data-theme');
-            if (containerTheme === theme) {
-                container.style.display = 'grid';
-                container.style.opacity = '0';
-                setTimeout(() => {
-                    container.style.opacity = '1';
-                }, 50);
+        // Control matrix canvas visibility
+        const matrixCanvas = document.getElementById('matrix-canvas');
+        if (matrixCanvas) {
+            if (theme === 'cyberpunk') {
+                matrixCanvas.style.display = 'block';
+                matrixCanvas.style.opacity = '0.1';
             } else {
-                container.style.display = 'none';
-                container.style.opacity = '0';
+                matrixCanvas.style.display = 'none';
+            }
+        }
+        
+        // Update text content
+        updateText(theme);
+        
+        // Update images
+        updateImages(theme, images[theme]);
+        
+        // Update skills
+        updateSkills(theme);
+        
+        console.log('Theme changed to:', theme);
+    }
+    
+    function updateText(theme) {
+        const elements = document.querySelectorAll(`[data-${theme}]`);
+        console.log('Text elements to update:', elements.length);
+        
+        elements.forEach(el => {
+            const text = el.getAttribute(`data-${theme}`);
+            if (text) {
+                el.textContent = text;
             }
         });
     }
     
-    // Load saved theme preference on initialization
-    const savedTheme = localStorage.getItem('preferred-theme');
-    if (savedTheme && ['cyberpunk', 'minecraft', 'gamedev'].includes(savedTheme)) {
-        switchTheme(savedTheme);
+    function updateImages(theme, imageList) {
+        const imgs = document.querySelectorAll('.project-img');
+        console.log('Images to update:', imgs.length);
+        
+        imgs.forEach((img, i) => {
+            if (imageList[i]) {
+                img.src = `assets/images/${imageList[i]}`;
+                console.log('Updated image:', img.src);
+            }
+        });
     }
+    
+    function updateSkills(theme) {
+        const skillSections = document.querySelectorAll('.theme-content');
+        console.log('Skill sections:', skillSections.length);
+        
+        skillSections.forEach(section => {
+            const sectionTheme = section.getAttribute('data-theme');
+            if (sectionTheme === theme) {
+                section.style.display = 'grid';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+    }
+    
+    // Test click handler
+    console.log('Theme switcher initialized successfully');
 }
 
 // Update typing effect for different themes
@@ -425,7 +521,8 @@ function initTypingEffect() {
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    createMatrixRain();
+    console.log('DOM loaded, initializing...');
+    createThemeBackground(); // Replace createMatrixRain()
     initNavigation();
     initScrollAnimations();
     initContactForm();
@@ -433,32 +530,40 @@ document.addEventListener('DOMContentLoaded', () => {
     initParallaxEffect();
     initSmoothScrolling();
     updateActiveNavigation();
-    initThemeSwitcher(); // Make sure this is called
     
-    // Debug: Check if theme buttons exist
-    console.log('Theme buttons found:', document.querySelectorAll('.theme-btn').length);
-    
-    // Add some CSS animations
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        
-        .skill-category {
-            opacity: 0;
-            transform: translateY(30px) scale(0.95);
-            transition: all 0.6s ease;
-        }
-    `;
-    document.head.appendChild(style);
+    // Initialize theme switcher last
+    setTimeout(initThemeSwitcher, 500);
 });
+
+// Also try on window load as backup
+window.addEventListener('load', function() {
+    console.log('Window loaded');
+    initThemeSwitcher();
+});
+
+// Debug: Check if theme buttons exist
+console.log('Theme buttons found:', document.querySelectorAll('.theme-btn').length);
+
+// Add some CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    .skill-category {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+        transition: all 0.6s ease;
+    }
+`;
+document.head.appendChild(style);
 
 // Add some interactive effects
 document.addEventListener('mousemove', (e) => {
@@ -495,3 +600,70 @@ fadeOutStyle.textContent = `
     }
 `;
 document.head.appendChild(fadeOutStyle);
+
+// Matrix rain effect - only for cyberpunk theme
+function createMatrixRain() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'matrix-canvas';
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '-1';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.opacity = '0.1';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+    const matrixArray = matrix.split("");
+    
+    const fontSize = 10;
+    let columns = Math.floor(canvas.width / fontSize);
+    let drops = [];
+    
+    function initDrops() {
+        drops = [];
+        for(let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+    }
+    
+    initDrops();
+    
+    function draw() {
+        // Only draw if cyberpunk theme is active
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
+        if (currentTheme !== 'cyberpunk') {
+            return;
+        }
+        
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#00ffff';
+        ctx.font = fontSize + 'px monospace';
+        
+        for(let i = 0; i < drops.length; i++) {
+            const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            
+            if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+    
+    setInterval(draw, 35);
+}
