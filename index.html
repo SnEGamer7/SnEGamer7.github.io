@@ -52,10 +52,43 @@
                 <span class="bar"></span>
             </div>
             <div class="user-actions">
-                <button class="login-btn" onclick="openLoginModal()">
-                    <i class="fas fa-user"></i> Login
-                </button>
+                <div id="userSection" class="user-section">
+                    <!-- Logged out state -->
+                    <div id="loggedOutState" class="auth-buttons">
+                        <button class="login-btn" onclick="openLoginModal()">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                        <button class="register-btn" onclick="openRegisterModal()">
+                            <i class="fas fa-user-plus"></i> Register
+                        </button>
+                    </div>
+                    <!-- Logged in state -->
+                    <div id="loggedInState" class="user-profile" style="display: none;">
+                        <div class="user-avatar" onclick="toggleUserMenu()">
+                            <img id="userProfilePic" src="assets/images/default-avatar.png" alt="Profile">
+                            <span id="userName">User</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div id="userDropdown" class="user-dropdown">
+                            <a href="#" onclick="openProfileModal()">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="#" onclick="openPreferencesModal()">
+                                <i class="fas fa-cog"></i> Preferences
+                            </a>
+                            <div id="adminMenuItems" style="display: none;">
+                                <a href="#" onclick="openAdminPanel()">
+                                    <i class="fas fa-shield-alt"></i> Admin Panel
+                                </a>
+                            </div>
+                            <a href="#" onclick="logoutUser()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- ...existing code... -->
         </div>
     </nav>
 
@@ -539,19 +572,112 @@
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeLoginModal()">&times;</span>
-            <h2>Developer Login</h2>
+            <h2>Login</h2>
             <form id="loginForm">
                 <div class="form-group">
-                    <input type="text" id="username" name="username" required>
-                    <label for="username">Username</label>
+                    <input type="text" id="loginUsername" name="username" required>
+                    <label for="loginUsername">Username</label>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" name="password" required>
-                    <label for="password">Password</label>
+                    <input type="password" id="loginPassword" name="password" required>
+                    <label for="loginPassword">Password</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
+                <p class="modal-switch">Don't have an account? <a href="#" onclick="switchToRegister()">Register here</a></p>
             </form>
-            <div id="loginStatus" class="login-status"></div>
+            <div id="loginStatus" class="status-message"></div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRegisterModal()">&times;</span>
+            <h2>Create Account</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <input type="text" id="regUsername" name="username" required>
+                    <label for="regUsername">Username</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" name="email" required>
+                    <label for="regEmail">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" name="password" required>
+                    <label for="regPassword">Password</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regConfirmPassword" name="confirmPassword" required>
+                    <label for="regConfirmPassword">Confirm Password</label>
+                </div>
+                <div class="password-requirements">
+                    <p>Password must contain:</p>
+                    <ul>
+                        <li>At least 8 characters</li>
+                        <li>One uppercase letter</li>
+                        <li>One number</li>
+                        <li>One special character</li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Account</button>
+                <p class="modal-switch">Already have an account? <a href="#" onclick="switchToLogin()">Login here</a></p>
+            </form>
+            <div id="registerStatus" class="status-message"></div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProfileModal()">&times;</span>
+            <h2>User Profile</h2>
+            <div class="profile-section">
+                <div class="profile-pic-section">
+                    <img id="profilePicPreview" src="" alt="Profile Picture">
+                    <div class="profile-pic-buttons">
+                        <button class="btn btn-secondary" onclick="changeProfilePic()">Upload Picture</button>
+                        <button class="btn btn-outline" onclick="resetToGeneratedAvatar()">Reset to Generated</button>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <p><strong>Username:</strong> <span id="profileUsername">-</span></p>
+                    <p><strong>Email:</strong> <span id="profileEmail">-</span></p>
+                    <p><strong>Role:</strong> <span id="profileRole">-</span></p>
+                    <p><strong>Member Since:</strong> <span id="profileCreated">-</span></p>
+                    <p><strong>Last Login:</strong> <span id="profileLastLogin">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preferences Modal -->
+    <div id="preferencesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePreferencesModal()">&times;</span>
+            <h2>User Preferences</h2>
+            <form id="preferencesForm">
+                <div class="pref-group">
+                    <label>Default Theme:</label>
+                    <select id="prefTheme">
+                        <option value="cyberpunk">Cyberpunk</option>
+                        <option value="minecraft">Minecraft</option>
+                        <option value="gamedev">Game Dev</option>
+                    </select>
+                </div>
+                <div class="pref-group">
+                    <label>
+                        <input type="checkbox" id="prefNotifications"> Enable Notifications
+                    </label>
+                </div>
+                <div class="pref-group">
+                    <label>
+                        <input type="checkbox" id="prefEmailUpdates"> Email Updates
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Preferences</button>
+            </form>
+            <div id="preferencesStatus" class="status-message"></div>
         </div>
     </div>
 
@@ -604,6 +730,8 @@
         </div>
     </div>
 
+    <script src="js/avatar-generator.js"></script>
+    <script src="js/user-system.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
