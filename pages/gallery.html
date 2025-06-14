@@ -191,5 +191,21 @@
     </div>
 
     <script src="../js/main.js"></script>
+    <script>
+        // Initialize gallery page specific functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize carousel on gallery page
+            const slides = document.querySelectorAll('.carousel-slide');
+            if (slides.length > 0) {
+                initCarousel();
+            }
+            
+            // Initialize theme switcher
+            initThemeSwitcher();
+            
+            // Initialize other features
+            initLoginSystem();
+        });
+    </script>
 </body>
 </html>
