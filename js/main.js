@@ -213,25 +213,149 @@ function showNotification(message, type) {
     }, 3000);
 }
 
-// Typing effect for hero text
+// Theme switching functionality
+function initThemeSwitcher() {
+    const themeButtons = document.querySelectorAll('.theme-btn');
+    const html = document.documentElement;
+    
+    // Theme-specific images
+    const themeImages = {
+        cyberpunk: ['CyberP.png', 'CyberP.png', 'CyberP.png'],
+        minecraft: ['RTX.png', 'mcperender.png', 'BBart.png'],
+        gamedev: ['CyberP.png', 'CyberP.png', 'CyberP.png'] // You can add game dev specific images later
+    };
+    
+    // Set initial active theme button
+    const currentTheme = html.getAttribute('data-theme') || 'cyberpunk';
+    updateActiveThemeButton(currentTheme);
+    
+    themeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const newTheme = button.getAttribute('data-theme');
+            switchTheme(newTheme);
+        });
+    });
+    
+    function switchTheme(theme) {
+        // Update HTML data-theme attribute
+        html.setAttribute('data-theme', theme);
+        
+        // Update active button
+        updateActiveThemeButton(theme);
+        
+        // Update content based on theme
+        updateThemeContent(theme);
+        
+        // Update project images
+        updateProjectImages(theme);
+        
+        // Update skills visibility
+        updateSkillsVisibility(theme);
+        
+        // Save theme preference
+        localStorage.setItem('preferred-theme', theme);
+        
+        // Add transition effect
+        document.body.style.transition = 'all 0.5s ease';
+        setTimeout(() => {
+            document.body.style.transition = '';
+        }, 500);
+    }
+    
+    function updateActiveThemeButton(theme) {
+        themeButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-theme') === theme) {
+                btn.classList.add('active');
+            }
+        });
+    }
+    
+    function updateThemeContent(theme) {
+        // Update all elements with theme-specific data attributes
+        const elementsWithThemeData = document.querySelectorAll('[data-' + theme + ']');
+        
+        elementsWithThemeData.forEach(element => {
+            const themeContent = element.getAttribute('data-' + theme);
+            if (themeContent) {
+                element.textContent = themeContent;
+            }
+        });
+    }
+    
+    function updateProjectImages(theme) {
+        const projectImages = document.querySelectorAll('.project-img');
+        const images = themeImages[theme] || themeImages.cyberpunk;
+        
+        projectImages.forEach((img, index) => {
+            if (images[index]) {
+                img.src = `assets/images/${images[index]}`;
+                img.alt = `${theme} project ${index + 1}`;
+            }
+        });
+    }
+    
+    function updateSkillsVisibility(theme) {
+        const skillsContainers = document.querySelectorAll('.skills .theme-content');
+        
+        skillsContainers.forEach(container => {
+            const containerTheme = container.getAttribute('data-theme');
+            if (containerTheme === theme) {
+                container.style.display = 'grid';
+                container.style.opacity = '0';
+                setTimeout(() => {
+                    container.style.opacity = '1';
+                }, 100);
+            } else {
+                container.style.display = 'none';
+            }
+        });
+    }
+    
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('preferred-theme');
+    if (savedTheme && savedTheme !== currentTheme) {
+        switchTheme(savedTheme);
+    }
+}
+
+// Update typing effect for different themes
 function initTypingEffect() {
-    const texts = [
-        "Cyberpunk Artist",
-        "Digital Designer",
-        "Visual Creator",
-        "Art Director",
-        "3D Modeler"
-    ];
+    const themeTexts = {
+        cyberpunk: [
+            "Cyberpunk Artist",
+            "Digital Designer",
+            "Visual Creator",
+            "Art Director",
+            "3D Modeler"
+        ],
+        minecraft: [
+            "Minecraft Creator",
+            "Block Builder",
+            "RTX Renderer",
+            "World Designer",
+            "Texture Artist"
+        ],
+        gamedev: [
+            "Game Designer",
+            "Unity Developer",
+            "Interactive Media",
+            "VR Creator",
+            "Gameplay Programmer"
+        ]
+    };
     
     const subtitle = document.querySelector('.subtitle');
     if (!subtitle) return;
     
+    let currentTheme = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
     let textIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
     
     function typeText() {
-        const currentText = texts[textIndex];
+        const currentTexts = themeTexts[currentTheme];
+        const currentText = currentTexts[textIndex];
         
         if (isDeleting) {
             subtitle.textContent = currentText.substring(0, charIndex - 1);
@@ -248,70 +372,31 @@ function initTypingEffect() {
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
-            textIndex = (textIndex + 1) % texts.length;
+            textIndex = (textIndex + 1) % currentTexts.length;
             typeSpeed = 500;
         }
         
         setTimeout(typeText, typeSpeed);
     }
     
+    // Update theme when theme changes
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                currentTheme = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
+                textIndex = 0;
+                charIndex = 0;
+                isDeleting = false;
+            }
+        });
+    });
+    
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+    });
+    
     setTimeout(typeText, 1000);
-}
-
-// Parallax effect for floating elements
-function initParallaxEffect() {
-    const floatingElements = document.querySelectorAll('.floating-element');
-    
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.5;
-        
-        floatingElements.forEach((element, index) => {
-            const speed = 0.5 + (index * 0.2);
-            element.style.transform = `translateY(${rate * speed}px)`;
-        });
-    });
-}
-
-// Smooth scrolling for anchor links
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
-
-// Update active navigation based on scroll position
-function updateActiveNavigation() {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    window.addEventListener('scroll', () => {
-        const scrollPos = window.scrollY + 100;
-        
-        sections.forEach(section => {
-            const top = section.offsetTop;
-            const height = section.offsetHeight;
-            const id = section.getAttribute('id');
-            
-            if (scrollPos >= top && scrollPos < top + height) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    });
 }
 
 // Initialize all functionality when DOM is loaded
@@ -324,6 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initParallaxEffect();
     initSmoothScrolling();
     updateActiveNavigation();
+    initThemeSwitcher(); // Add theme switcher initialization
     
     // Add some CSS animations
     const style = document.createElement('style');

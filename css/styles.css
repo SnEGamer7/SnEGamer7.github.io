@@ -1,4 +1,5 @@
 :root {
+    /* Cyberpunk Theme */
     --primary-cyan: #00ffff;
     --primary-magenta: #ff00ff;
     --primary-yellow: #ffff00;
@@ -8,6 +9,40 @@
     --text-secondary: #b0b0b0;
     --gradient-primary: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
     --gradient-secondary: linear-gradient(135deg, #ff00ff 0%, #ffff00 100%);
+}
+
+/* Minecraft Theme */
+[data-theme="minecraft"] {
+    --primary-cyan: #4CAF50;
+    --primary-magenta: #8BC34A;
+    --primary-yellow: #CDDC39;
+    --dark-bg: #2E7D32;
+    --card-bg: rgba(76, 175, 80, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: #C8E6C9;
+    --gradient-primary: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+    --gradient-secondary: linear-gradient(135deg, #8BC34A 0%, #CDDC39 100%);
+}
+
+[data-theme="minecraft"] body {
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 50%, #388E3C 100%);
+}
+
+/* Game Dev Theme */
+[data-theme="gamedev"] {
+    --primary-cyan: #9C27B0;
+    --primary-magenta: #E91E63;
+    --primary-yellow: #FF9800;
+    --dark-bg: #4A148C;
+    --card-bg: rgba(156, 39, 176, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: #E1BEE7;
+    --gradient-primary: linear-gradient(135deg, #9C27B0 0%, #E91E63 100%);
+    --gradient-secondary: linear-gradient(135deg, #E91E63 0%, #FF9800 100%);
+}
+
+[data-theme="gamedev"] body {
+    background: linear-gradient(135deg, #4A148C 0%, #6A1B9A 50%, #7B1FA2 100%);
 }
 
 * {
@@ -473,10 +508,19 @@ section {
 }
 
 .project-image {
-    height: 200px;
-    background: linear-gradient(45deg, var(--primary-cyan), var(--primary-magenta));
     position: relative;
     overflow: hidden;
+}
+
+.project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-img {
+    transform: scale(1.1);
 }
 
 .project-overlay {
@@ -679,6 +723,45 @@ section {
     text-shadow: 0 0 10px var(--primary-cyan);
 }
 
+/* Theme Switcher */
+.theme-switcher {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+.theme-btn {
+    background: transparent;
+    border: 2px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.theme-btn:hover,
+.theme-btn.active {
+    background: var(--primary-cyan);
+    color: var(--dark-bg);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px var(--primary-cyan);
+}
+
+/* Theme Content Visibility */
+.theme-content {
+    transition: opacity 0.3s ease;
+}
+
+.theme-content[style*="display: none"] {
+    display: none !important;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hamburger {
@@ -733,6 +816,23 @@ section {
         flex-direction: column;
         gap: 1rem;
         text-align: center;
+    }
+    
+    .theme-switcher {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+    
+    .nav-container {
+        flex-wrap: wrap;
+    }
+    
+    .theme-switcher {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        padding-top: 1rem;
+        border-top: 1px solid var(--primary-cyan);
     }
 }
 

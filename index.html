@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="cyberpunk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +32,17 @@
                     <a href="#contact" class="nav-link" data-section="contact">Contact</a>
                 </li>
             </ul>
+            <div class="theme-switcher">
+                <button class="theme-btn" data-theme="cyberpunk">
+                    <i class="fas fa-robot"></i>
+                </button>
+                <button class="theme-btn" data-theme="minecraft">
+                    <i class="fas fa-cube"></i>
+                </button>
+                <button class="theme-btn" data-theme="gamedev">
+                    <i class="fas fa-gamepad"></i>
+                </button>
+            </div>
             <div class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -44,8 +55,13 @@
     <section id="home" class="hero">
         <div class="hero-content">
             <div class="glitch-text" data-text="SpicyMatters">SpicyMatters</div>
-            <h2 class="subtitle">Cyberpunk Artist</h2>
-            <p class="hero-description">Creating digital art and visual experiences in the neon-lit future</p>
+            <h2 class="subtitle" data-cyberpunk="Cyberpunk Artist" data-minecraft="Minecraft Creator" data-gamedev="Game Designer">Cyberpunk Artist</h2>
+            <p class="hero-description" 
+               data-cyberpunk="Creating digital art and visual experiences in the neon-lit future"
+               data-minecraft="Building immersive worlds and custom content for Minecraft"
+               data-gamedev="Designing engaging game experiences and interactive media">
+               Creating digital art and visual experiences in the neon-lit future
+            </p>
             <div class="hero-buttons">
                 <a href="#projects" class="btn btn-primary">View Projects</a>
                 <a href="#contact" class="btn btn-secondary">Get In Touch</a>
@@ -66,12 +82,22 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <p>Welcome to my digital art realm. I'm a passionate graphic designer and digital artist who thrives in the intersection of creativity and technology. With a love for cyberpunk aesthetics and cutting-edge design, I create immersive visual experiences that push the boundaries of digital art.</p>
-                    <p>My journey in the creative world spans multiple design disciplines and artistic platforms, always staying ahead of the curve in this rapidly evolving digital landscape.</p>
+                    <p class="about-intro" 
+                       data-cyberpunk="Welcome to my digital art realm. I'm a passionate graphic designer and digital artist who thrives in the intersection of creativity and technology. With a love for cyberpunk aesthetics and cutting-edge design, I create immersive visual experiences that push the boundaries of digital art."
+                       data-minecraft="Welcome to my blocky universe! I'm a dedicated Minecraft content creator specializing in custom models, textures, and immersive builds. Using tools like Blockbench and advanced rendering techniques, I bring unique visions to life in the world of blocks."
+                       data-gamedev="Welcome to my creative studio! I'm a passionate game designer and developer who creates engaging interactive experiences. From concept art to gameplay mechanics, I craft memorable gaming experiences that captivate players.">
+                       Welcome to my digital art realm. I'm a passionate graphic designer and digital artist who thrives in the intersection of creativity and technology.
+                    </p>
+                    <p class="about-secondary"
+                       data-cyberpunk="My journey in the creative world spans multiple design disciplines and artistic platforms, always staying ahead of the curve in this rapidly evolving digital landscape."
+                       data-minecraft="My expertise covers everything from intricate Blockbench models to stunning RTX renders, creating content that enhances the Minecraft experience for players worldwide."
+                       data-gamedev="My experience spans across multiple game genres and platforms, from indie projects to commercial releases, always focusing on innovative gameplay and stunning visuals.">
+                       My journey in the creative world spans multiple design disciplines and artistic platforms.
+                    </p>
                     <div class="stats">
                         <div class="stat">
-                            <span class="stat-number">100+</span>
-                            <span class="stat-label">Artworks Created</span>
+                            <span class="stat-number" data-cyberpunk="100+" data-minecraft="50+" data-gamedev="25+">100+</span>
+                            <span class="stat-label" data-cyberpunk="Artworks Created" data-minecraft="Models Built" data-gamedev="Games Designed">Artworks Created</span>
                         </div>
                         <div class="stat">
                             <span class="stat-number">4+</span>
@@ -79,7 +105,7 @@
                         </div>
                         <div class="stat">
                             <span class="stat-number">100%</span>
-                            <span class="stat-label">Creativity</span>
+                            <span class="stat-label" data-cyberpunk="Creativity" data-minecraft="Dedication" data-gamedev="Innovation">Creativity</span>
                         </div>
                     </div>
                 </div>
@@ -87,21 +113,21 @@
                     <div class="profile-card">
                         <div class="card-glow"></div>
                         <div class="profile-info">
-                            <h3>Creative Status</h3>
+                            <h3 data-cyberpunk="Creative Status" data-minecraft="Builder Status" data-gamedev="Developer Status">Creative Status</h3>
                             <div class="status-item">
-                                <span>Artistic Vision:</span>
+                                <span data-cyberpunk="Artistic Vision:" data-minecraft="Building Skills:" data-gamedev="Game Design:">Artistic Vision:</span>
                                 <div class="progress-bar">
                                     <div class="progress" style="width: 98%"></div>
                                 </div>
                             </div>
                             <div class="status-item">
-                                <span>Design Skills:</span>
+                                <span data-cyberpunk="Design Skills:" data-minecraft="3D Modeling:" data-gamedev="Programming:">Design Skills:</span>
                                 <div class="progress-bar">
                                     <div class="progress" style="width: 95%"></div>
                                 </div>
                             </div>
                             <div class="status-item">
-                                <span>Innovation:</span>
+                                <span data-cyberpunk="Innovation:" data-minecraft="Creativity:" data-gamedev="Problem Solving:">Innovation:</span>
                                 <div class="progress-bar">
                                     <div class="progress" style="width: 92%"></div>
                                 </div>
@@ -116,8 +142,10 @@
     <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="container">
-            <h2 class="section-title">Creative Arsenal</h2>
-            <div class="skills-grid">
+            <h2 class="section-title" data-cyberpunk="Creative Arsenal" data-minecraft="Building Tools" data-gamedev="Development Stack">Creative Arsenal</h2>
+            
+            <!-- Cyberpunk Skills -->
+            <div class="skills-grid theme-content" data-theme="cyberpunk">
                 <div class="skill-category">
                     <h3>Design Software</h3>
                     <div class="skill-items">
@@ -182,16 +210,153 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Minecraft Skills -->
+            <div class="skills-grid theme-content" data-theme="minecraft" style="display: none;">
+                <div class="skill-category">
+                    <h3>Modeling Tools</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-cube"></i>
+                            <span>Blockbench</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cubes"></i>
+                            <span>MCreator</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-shapes"></i>
+                            <span>OptiFine</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-layer-group"></i>
+                            <span>WorldEdit</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Rendering</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-sun"></i>
+                            <span>RTX Shaders</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-image"></i>
+                            <span>Chunky</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-camera"></i>
+                            <span>Replay Mod</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-video"></i>
+                            <span>Cinema 4D</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Content Creation</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Texture Packs</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-map"></i>
+                            <span>Map Making</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cogs"></i>
+                            <span>Redstone</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-hammer"></i>
+                            <span>Resource Packs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Game Dev Skills -->
+            <div class="skills-grid theme-content" data-theme="gamedev" style="display: none;">
+                <div class="skill-category">
+                    <h3>Game Engines</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fas fa-gamepad"></i>
+                            <span>Unity</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-fire"></i>
+                            <span>Unreal Engine</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code"></i>
+                            <span>Godot</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-desktop"></i>
+                            <span>GameMaker</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Programming</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-js-square"></i>
+                            <span>C#</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-code"></i>
+                            <span>C++</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-python"></i>
+                            <span>Python</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-terminal"></i>
+                            <span>GDScript</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Design Tools</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <i class="fab fa-adobe"></i>
+                            <span>Photoshop</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-cubes"></i>
+                            <span>Blender</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-music"></i>
+                            <span>Audacity</span>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-pencil-alt"></i>
+                            <span>Concept Art</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
-            <h2 class="section-title">Creative Works</h2>
+            <h2 class="section-title" data-cyberpunk="Creative Works" data-minecraft="Minecraft Creations" data-gamedev="Game Projects">Creative Works</h2>
+            
+            <!-- Project images will be dynamically updated -->
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-image">
+                        <img class="project-img" src="assets/images/CyberP.png" alt="Project 1">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="#" class="project-link">
@@ -204,17 +369,28 @@
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3>Cyberpunk Character Design</h3>
-                        <p>Detailed character illustrations with futuristic aesthetics, featuring neon lighting and cyberpunk elements.</p>
+                        <h3 class="project-title" 
+                            data-cyberpunk="Cyberpunk Character Design" 
+                            data-minecraft="Custom RTX Build" 
+                            data-gamedev="Indie Adventure Game">
+                            Cyberpunk Character Design
+                        </h3>
+                        <p class="project-desc"
+                           data-cyberpunk="Detailed character illustrations with futuristic aesthetics, featuring neon lighting and cyberpunk elements."
+                           data-minecraft="Stunning Minecraft build with RTX ray tracing, showcasing advanced lighting and realistic textures."
+                           data-gamedev="A captivating indie adventure game with unique mechanics and immersive storytelling.">
+                           Detailed character illustrations with futuristic aesthetics, featuring neon lighting and cyberpunk elements.
+                        </p>
                         <div class="project-tech">
-                            <span class="tech-tag">Photoshop</span>
-                            <span class="tech-tag">Digital Art</span>
-                            <span class="tech-tag">Concept Art</span>
+                            <span class="tech-tag" data-cyberpunk="Photoshop" data-minecraft="RTX" data-gamedev="Unity">Photoshop</span>
+                            <span class="tech-tag" data-cyberpunk="Digital Art" data-minecraft="Shaders" data-gamedev="C#">Digital Art</span>
+                            <span class="tech-tag" data-cyberpunk="Concept Art" data-minecraft="Rendering" data-gamedev="Game Design">Concept Art</span>
                         </div>
                     </div>
                 </div>
                 <div class="project-card">
                     <div class="project-image">
+                        <img class="project-img" src="assets/images/CyberP.png" alt="Project 2">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="#" class="project-link">
@@ -227,17 +403,28 @@
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3>3D Minecraft Models</h3>
-                        <p>Custom Blockbench models and textures for Minecraft, including weapons, armor, and environmental assets.</p>
+                        <h3 class="project-title"
+                            data-cyberpunk="3D Sci-Fi Environment"
+                            data-minecraft="Blockbench Model Pack"
+                            data-gamedev="Mobile Puzzle Game">
+                            3D Sci-Fi Environment
+                        </h3>
+                        <p class="project-desc"
+                           data-cyberpunk="Immersive 3D environments with advanced lighting and atmospheric effects for sci-fi scenes."
+                           data-minecraft="Complete collection of custom Blockbench models including weapons, tools, and decorative items."
+                           data-gamedev="Engaging mobile puzzle game with innovative mechanics and beautiful minimalist design.">
+                           Immersive 3D environments with advanced lighting and atmospheric effects for sci-fi scenes.
+                        </p>
                         <div class="project-tech">
-                            <span class="tech-tag">Blockbench</span>
-                            <span class="tech-tag">3D Modeling</span>
-                            <span class="tech-tag">Texturing</span>
+                            <span class="tech-tag" data-cyberpunk="Blender" data-minecraft="Blockbench" data-gamedev="Unity">Blender</span>
+                            <span class="tech-tag" data-cyberpunk="3D Modeling" data-minecraft="3D Modeling" data-gamedev="Mobile Dev">3D Modeling</span>
+                            <span class="tech-tag" data-cyberpunk="Texturing" data-minecraft="Texturing" data-gamedev="UI Design">Texturing</span>
                         </div>
                     </div>
                 </div>
                 <div class="project-card">
                     <div class="project-image">
+                        <img class="project-img" src="assets/images/CyberP.png" alt="Project 3">
                         <div class="project-overlay">
                             <div class="project-links">
                                 <a href="#" class="project-link">
@@ -250,12 +437,22 @@
                         </div>
                     </div>
                     <div class="project-info">
-                        <h3>Brand Identity Design</h3>
-                        <p>Complete brand identity packages including logos, color schemes, and marketing materials for various clients.</p>
+                        <h3 class="project-title"
+                            data-cyberpunk="Brand Identity Design"
+                            data-minecraft="Minecraft PE Render"
+                            data-gamedev="VR Experience">
+                            Brand Identity Design
+                        </h3>
+                        <p class="project-desc"
+                           data-cyberpunk="Complete brand identity packages including logos, color schemes, and marketing materials for various clients."
+                           data-minecraft="High-quality Minecraft Pocket Edition renders showcasing detailed builds and custom content."
+                           data-gamedev="Immersive VR experience with intuitive controls and stunning visual design.">
+                           Complete brand identity packages including logos, color schemes, and marketing materials for various clients.
+                        </p>
                         <div class="project-tech">
-                            <span class="tech-tag">Illustrator</span>
-                            <span class="tech-tag">Branding</span>
-                            <span class="tech-tag">Logo Design</span>
+                            <span class="tech-tag" data-cyberpunk="Illustrator" data-minecraft="MCPE" data-gamedev="VR">Illustrator</span>
+                            <span class="tech-tag" data-cyberpunk="Branding" data-minecraft="Rendering" data-gamedev="C++">Branding</span>
+                            <span class="tech-tag" data-cyberpunk="Logo Design" data-minecraft="Mobile" data-gamedev="3D Graphics">Logo Design</span>
                         </div>
                     </div>
                 </div>
