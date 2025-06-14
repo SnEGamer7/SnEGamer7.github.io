@@ -222,23 +222,36 @@ function initThemeSwitcher() {
     const themeImages = {
         cyberpunk: ['CyberP.png', 'CyberP.png', 'CyberP.png'],
         minecraft: ['RTX.png', 'mcperender.png', 'BBart.png'],
-        gamedev: ['CyberP.png', 'CyberP.png', 'CyberP.png'] // You can add game dev specific images later
+        gamedev: ['CyberP.png', 'CyberP.png', 'CyberP.png']
     };
     
     // Set initial active theme button
     const currentTheme = html.getAttribute('data-theme') || 'cyberpunk';
     updateActiveThemeButton(currentTheme);
     
+    // Add click event listeners with proper event handling
     themeButtons.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const newTheme = button.getAttribute('data-theme');
-            switchTheme(newTheme);
+            console.log('Theme button clicked:', newTheme); // Debug log
+            
+            if (newTheme) {
+                switchTheme(newTheme);
+            }
         });
     });
     
     function switchTheme(theme) {
+        console.log('Switching to theme:', theme); // Debug log
+        
         // Update HTML data-theme attribute
         html.setAttribute('data-theme', theme);
+        
+        // Force a style recalculation
+        html.offsetHeight;
         
         // Update active button
         updateActiveThemeButton(theme);
@@ -255,10 +268,10 @@ function initThemeSwitcher() {
         // Save theme preference
         localStorage.setItem('preferred-theme', theme);
         
-        // Add transition effect
-        document.body.style.transition = 'all 0.5s ease';
+        // Trigger a reflow to ensure changes take effect
+        document.body.classList.add('theme-transition');
         setTimeout(() => {
-            document.body.style.transition = '';
+            document.body.classList.remove('theme-transition');
         }, 500);
     }
     
@@ -273,12 +286,14 @@ function initThemeSwitcher() {
     
     function updateThemeContent(theme) {
         // Update all elements with theme-specific data attributes
-        const elementsWithThemeData = document.querySelectorAll('[data-' + theme + ']');
-        
-        elementsWithThemeData.forEach(element => {
+        document.querySelectorAll('[data-' + theme + ']').forEach(element => {
             const themeContent = element.getAttribute('data-' + theme);
             if (themeContent) {
-                element.textContent = themeContent;
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.value = themeContent;
+                } else {
+                    element.textContent = themeContent;
+                }
             }
         });
     }
@@ -289,8 +304,16 @@ function initThemeSwitcher() {
         
         projectImages.forEach((img, index) => {
             if (images[index]) {
-                img.src = `assets/images/${images[index]}`;
-                img.alt = `${theme} project ${index + 1}`;
+                const newSrc = `assets/images/${images[index]}`;
+                console.log('Updating image:', newSrc); // Debug log
+                
+                // Preload image before switching
+                const preloadImg = new Image();
+                preloadImg.onload = () => {
+                    img.src = newSrc;
+                    img.alt = `${theme} project ${index + 1}`;
+                };
+                preloadImg.src = newSrc;
             }
         });
     }
@@ -305,16 +328,17 @@ function initThemeSwitcher() {
                 container.style.opacity = '0';
                 setTimeout(() => {
                     container.style.opacity = '1';
-                }, 100);
+                }, 50);
             } else {
                 container.style.display = 'none';
+                container.style.opacity = '0';
             }
         });
     }
     
-    // Load saved theme preference
+    // Load saved theme preference on initialization
     const savedTheme = localStorage.getItem('preferred-theme');
-    if (savedTheme && savedTheme !== currentTheme) {
+    if (savedTheme && ['cyberpunk', 'minecraft', 'gamedev'].includes(savedTheme)) {
         switchTheme(savedTheme);
     }
 }
@@ -409,7 +433,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initParallaxEffect();
     initSmoothScrolling();
     updateActiveNavigation();
-    initThemeSwitcher(); // Add theme switcher initialization
+    initThemeSwitcher(); // Make sure this is called
+    
+    // Debug: Check if theme buttons exist
+    console.log('Theme buttons found:', document.querySelectorAll('.theme-btn').length);
     
     // Add some CSS animations
     const style = document.createElement('style');

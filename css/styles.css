@@ -516,7 +516,7 @@ section {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .project-card:hover .project-img {
@@ -728,6 +728,7 @@ section {
     display: flex;
     gap: 0.5rem;
     margin-left: 1rem;
+    align-items: center;
 }
 
 .theme-btn {
@@ -743,9 +744,16 @@ section {
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
-.theme-btn:hover,
+.theme-btn:hover {
+    background: rgba(0, 255, 255, 0.1);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--primary-cyan);
+}
+
 .theme-btn.active {
     background: var(--primary-cyan);
     color: var(--dark-bg);
@@ -753,13 +761,34 @@ section {
     box-shadow: 0 0 15px var(--primary-cyan);
 }
 
-/* Theme Content Visibility */
+.theme-btn:focus {
+    outline: 2px solid var(--primary-cyan);
+    outline-offset: 2px;
+}
+
+/* Theme transition effects */
+.theme-transition {
+    transition: all 0.5s ease !important;
+}
+
+.theme-transition * {
+    transition: all 0.5s ease !important;
+}
+
+/* Ensure theme content transitions smoothly */
 .theme-content {
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .theme-content[style*="display: none"] {
     display: none !important;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Project image transitions */
+.project-img {
+    transition: all 0.3s ease;
 }
 
 /* Responsive Design */
@@ -821,6 +850,7 @@ section {
     .theme-switcher {
         margin-left: 0;
         margin-top: 1rem;
+        justify-content: center;
     }
     
     .nav-container {
