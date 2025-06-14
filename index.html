@@ -29,6 +29,9 @@
                     <a href="#projects" class="nav-link" data-section="projects">Projects</a>
                 </li>
                 <li class="nav-item">
+                    <a href="pages/gallery.html" class="nav-link">Gallery</a>
+                </li>
+                <li class="nav-item">
                     <a href="#contact" class="nav-link" data-section="contact">Contact</a>
                 </li>
             </ul>
@@ -47,6 +50,11 @@
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
+            </div>
+            <div class="user-actions">
+                <button class="login-btn" onclick="openLoginModal()">
+                    <i class="fas fa-user"></i> Login
+                </button>
             </div>
         </div>
     </nav>
@@ -526,6 +534,75 @@
             </div>
         </div>
     </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2>Developer Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="text" id="username" name="username" required>
+                    <label for="username">Username</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" required>
+                    <label for="password">Password</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <div id="loginStatus" class="login-status"></div>
+        </div>
+    </div>
+
+    <!-- Admin Panel (hidden by default) -->
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <div class="admin-header">
+            <h3>Admin Panel</h3>
+            <button onclick="logout()" class="btn btn-secondary">Logout</button>
+        </div>
+        <div class="admin-content">
+            <p>Welcome, Developer! Admin privileges active.</p>
+            <div class="admin-actions">
+                <button class="btn btn-primary" onclick="editMode()">Edit Mode</button>
+                <button class="btn btn-primary" onclick="viewAnalytics()">Analytics</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Support Chat -->
+    <div id="chatBubble" class="chat-bubble" onclick="toggleChat()">
+        <i class="fas fa-comments"></i>
+        <span class="chat-notification" id="chatNotification"></span>
+    </div>
+
+    <div id="chatWindow" class="chat-window">
+        <div class="chat-header">
+            <h4>Customer Support</h4>
+            <div class="chat-controls">
+                <button onclick="minimizeChat()" class="chat-minimize">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button onclick="closeChat()" class="chat-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-message bot-message">
+                <div class="message-content">
+                    <p>Hello! I'm here to help with any questions about SpicyMatters' work. How can I assist you today?</p>
+                    <span class="message-time">Just now</span>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type your message..." onkeypress="handleChatEnter(event)">
+            <button onclick="sendMessage()" class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
 
     <script src="js/main.js"></script>
 </body>

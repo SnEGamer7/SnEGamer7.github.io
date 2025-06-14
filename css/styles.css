@@ -963,6 +963,414 @@ html[data-theme="gamedev"] #matrix-canvas {
     opacity: 0.1;
 }
 
+/* User Actions */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.login-btn {
+    background: transparent;
+    border: 2px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.login-btn:hover {
+    background: var(--primary-cyan);
+    color: var(--dark-bg);
+}
+
+/* Gallery Section */
+.gallery {
+    background: rgba(26, 26, 46, 0.3);
+}
+
+.gallery-description {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.gallery-description p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.carousel-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+    border-radius: 15px;
+    border: 2px solid var(--primary-cyan);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    position: relative;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+.slide-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 2rem;
+}
+
+.slide-info h3 {
+    color: var(--primary-cyan);
+    margin-bottom: 0.5rem;
+}
+
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.carousel-btn {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background: var(--primary-cyan);
+    color: var(--dark-bg);
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(0, 255, 255, 0.3);
+    border: 2px solid var(--primary-cyan);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: var(--primary-cyan);
+}
+
+/* Login Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--card-bg);
+    margin: 10% auto;
+    padding: 2rem;
+    border: 2px solid var(--primary-cyan);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+}
+
+.close {
+    color: var(--text-secondary);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: var(--primary-cyan);
+}
+
+.modal-content h2 {
+    color: var(--primary-cyan);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.login-status {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.login-status.success {
+    background: rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+    border: 1px solid #00ff00;
+}
+
+.login-status.error {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff0000;
+    border: 1px solid #ff0000;
+}
+
+/* Admin Panel */
+.admin-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--card-bg);
+    border: 2px solid var(--primary-cyan);
+    border-radius: 10px;
+    padding: 1rem;
+    z-index: 1500;
+    min-width: 250px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--primary-cyan);
+}
+
+.admin-header h3 {
+    color: var(--primary-cyan);
+    margin: 0;
+}
+
+.admin-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.admin-actions .btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+}
+
+/* Customer Support Chat */
+.chat-bubble {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
+}
+
+.chat-bubble:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(0, 255, 255, 0.6);
+}
+
+.chat-bubble i {
+    font-size: 24px;
+    color: var(--dark-bg);
+}
+
+.chat-notification {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff0000;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.chat-window {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    width: 300px;
+    height: 400px;
+    background: var(--card-bg);
+    border: 2px solid var(--primary-cyan);
+    border-radius: 15px;
+    display: none;
+    flex-direction: column;
+    z-index: 1500;
+}
+
+.chat-header {
+    background: var(--gradient-primary);
+    color: var(--dark-bg);
+    padding: 1rem;
+    border-radius: 13px 13px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h4 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.chat-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chat-minimize,
+.chat-close {
+    background: transparent;
+    border: none;
+    color: var(--dark-bg);
+    cursor: pointer;
+    padding: 0.2rem;
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+.chat-minimize:hover,
+.chat-close:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.chat-body {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chat-message {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.bot-message {
+    justify-content: flex-start;
+}
+
+.user-message {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 0.8rem;
+    border-radius: 10px;
+    position: relative;
+}
+
+.bot-message .message-content {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid var(--primary-cyan);
+}
+
+.user-message .message-content {
+    background: var(--gradient-primary);
+    color: var(--dark-bg);
+}
+
+.message-time {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    display: block;
+    margin-top: 0.3rem;
+}
+
+.chat-input {
+    display: flex;
+    padding: 1rem;
+    border-top: 1px solid var(--primary-cyan);
+}
+
+.chat-input input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--primary-cyan);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    color: var(--text-primary);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.chat-input input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.send-btn {
+    background: var(--primary-cyan);
+    color: var(--dark-bg);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.send-btn:hover {
+    transform: scale(1.1);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .hamburger {
@@ -1023,6 +1431,27 @@ html[data-theme="gamedev"] #matrix-canvas {
         gap: 1rem;
         text-align: center;
     }
+    
+    .user-actions {
+        order: 2;
+        margin-top: 1rem;
+    }
+    
+    .chat-window {
+        width: calc(100vw - 40px);
+        left: 20px;
+        right: 20px;
+    }
+    
+    .admin-panel {
+        right: 10px;
+        left: 10px;
+        width: auto;
+    }
+    
+    .carousel-slide img {
+        height: 250px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1049,4 +1478,11 @@ html[data-theme="gamedev"] #matrix-canvas {
     .projects-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Gallery Page Specific Styles */
+.gallery {
+    min-height: 100vh;
+    padding-top: 120px;
+    background: rgba(26, 26, 46, 0.3);
 }
